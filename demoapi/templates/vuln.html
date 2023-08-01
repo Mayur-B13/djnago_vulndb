@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=PT+Mono&family=Roboto+Condensed&display=swap');
+
+.container {
+    font-family: 'PT Mono', monospace;
+    }
+
+.content {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 500px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-bottom-style:none;
+}
+
+.content thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content th,
+.content td {
+    padding: 12px 15px;
+}
+
+.content tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content tbody tr:last-of-type {
+    background-color: #009879;
+    color: white;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.pagination {
+    margin-top: 20px;
+    
+}
+
+.pagination .btn {
+    margin: 0 5px;
+    text-decoration:none;
+    color:black;
+}
+
+.current-page {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.content tbody tr:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+</style>
+<head>
+    <meta charset="utf-8">
+    <title>Vulnerability Database</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5 head">
+        <h1><center>Vulnerability Database</center></h1>
+    </div>
+    <div class="container mt-5 content">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th><center>CVE ID</center></th>
+                        <th><center>Date Recorded</center></th>
+                        <th><center>Vulnerability Description</center></th>
+                        <th><center>Severity</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if c %}
+                    {% for i in c %}
+                    <tr>
+                        <td><center>{{i.ID}}</center></td>
+                        <td><center>{{i.DATES}}</center></td>
+                        <td><center>{{i.DESC}}</center></td>
+                        <td><center>{{i.SEVERITY}}</center></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container pagination">
+        <center>
+            <span class="step-links">
+                {% if c.has_previous %}
+                    <a class="btn btn-outline-primary" href="?page=1"><center>First</center></a>
+                    <a class="btn btn-outline-primary" href="?page={{ c.previous_page_number }}"><center>Previous</center></a>
+                    <span class="current-page">
+                        Page {{ c.number }} of {{ c.paginator.num_pages }}
+                    </span>
+                {% endif %}
+                {% if c.has_next %}
+                    <a class="btn btn-outline-primary" href="?page={{ c.next_page_number }}"><center>Next</center></a>
+                    <a class="btn btn-outline-primary" href="?page={{ c.paginator.num_pages }}"><center>Last</center></a>
+                {% endif %}
+            </span>
+        </center>
+    </div>
+</body>
+</html>
